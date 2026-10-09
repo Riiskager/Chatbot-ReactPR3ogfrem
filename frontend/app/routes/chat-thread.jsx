@@ -23,7 +23,7 @@ import { useLoaderData } from "react-router";
 
 export async function clientLoader({params}){
   // const { threadID } = params;
-
+    console.log("ClientLoader params start")
   const mockMessages=[
     {
       id: 1,
@@ -38,7 +38,7 @@ export async function clientLoader({params}){
   ]
  await new Promise((resolve) => setTimeout(resolve, 500))
   
-
+    console.log("ClientLoader params end")
  return{
     threadID:params.threadId,
     messages: mockMessages,

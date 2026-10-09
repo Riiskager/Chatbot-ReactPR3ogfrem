@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
-import { useState } from "react";
 import Sidebar from "../components/Sidebar.jsx";
+import { useLoaderData } from "react-router";
 
 /**
  * INITIAL DATA FOR STATE
@@ -64,6 +64,59 @@ const initialThreads = [
   },
 ];
 
+export async function clientLoader(){
+    console.log("ClientLoader start")
+  await new Promise((resolve) => setTimeout(resolve,300))
+
+  const mockThreadData=[
+    {
+      id: "1",
+      title: "How to learn programming?",
+    },
+    {
+      id: "2",
+      title: "What are the best pizza toppings?",
+    },
+    {
+      id: "3",
+      title: "Can you explain quantum physics?",
+    },
+    {
+      id: "4",
+      title: "Help me create a morning routine",
+    },
+    {
+      id: "5",
+      title: "What should I do this weekend?",
+    },
+    {
+      id: "6",
+      title: "Why is the sky blue?",
+    },
+    {
+      id: "7",
+      title: "How do I learn a new language?",
+    },
+    {
+      id: "8",
+      title: "What's the meaning of life?",
+    },
+    {
+      id: "9",
+      title: "Tell me a funny joke",
+    },
+    {
+      id: "10",
+      title: "What's a healthy dinner idea?",
+    },
+  ];
+  
+    console.log("ClientLoader end")
+  return{
+    threads: mockThreadData,
+  };
+}
+
 /**
  * Layout Component
  *
@@ -75,17 +128,14 @@ const initialThreads = [
  * 5. COMPONENT COMMUNICATION: Parent-child communication via callbacks
  */
 export default function Layout() {
+
   // STATE: threads is now dynamic data that can change!
-  const [threads, setThreads] = useState(initialThreads);
+  const {threads} = useLoaderData();
 
   // CALLBACK FUNCTION: Handle deleting a thread by ID
-  const deleteThread = (threadId) => {
-    console.log("Layout: Deleting thread with ID:", threadId);
-
-    // IMMUTABLE UPDATE: Create new array without the deleted thread
-    setThreads((currentThreads) =>
-      currentThreads.filter((thread) => thread.id !== threadId),
-    );
+   const deleteThread = (threadId) => {
+    console.log("Delete thread:", threadId);
+    console.log("(Mutations will be implemented in the next phase)");
   };
 
   return (
