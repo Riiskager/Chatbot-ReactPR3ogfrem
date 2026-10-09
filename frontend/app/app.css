@@ -161,6 +161,23 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.chat-thread-link-active{
+    display: block;
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
 
 /* Delete button - hidden by default, shown on hover */
 .delete-thread-btn {

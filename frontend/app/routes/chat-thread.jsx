@@ -40,7 +40,7 @@ export async function clientLoader({params}){
   
     console.log("ClientLoader params end")
  return{
-    threadID:params.threadId,
+    threadId:params.threadId,
     messages: mockMessages,
   }
 
