@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useParams } from "react-router";
+
 import { ChatMessages, ChatInput } from "../components/Chat.jsx";
+import { useLoaderData } from "react-router";
 
 /**
  * INITIAL THREAD MESSAGES DATA
@@ -8,18 +8,7 @@ import { ChatMessages, ChatInput } from "../components/Chat.jsx";
  * This is placeholder data for any thread.
  * Later, this will be replaced with data fetched from the database.
  */
-const defaultMessages = [
-  {
-    id: 1,
-    type: "user",
-    content: "This is the user's original message",
-  },
-  {
-    id: 2,
-    type: "bot",
-    content: "This is the first bot response",
-  },
-];
+
 
 /**
  * Chat Thread Route Component
@@ -31,11 +20,37 @@ const defaultMessages = [
  * 1. useParams() HOOK: Extracts URL parameters from the route
  * 2. The `messages` state is currently shared among all threads, this will be fixed later.
  */
+
+export async function clientLoader({params}){
+  // const { threadID } = params;
+
+  const mockMessages=[
+    {
+      id: 1,
+      type: "user",
+      content: `This is a message from thread ${params.threadId}`
+    },
+    {
+      id: 2,
+      type: "bot",
+      content: `This is the bots response in thread ${params.threadId}`
+    }
+  ]
+ await new Promise((resolve) => setTimeout(resolve, 500))
+  
+
+ return{
+    threadID:params.threadId,
+    messages: mockMessages,
+  }
+
+}
+
 export default function ChatThread() {
   // Extract the threadId from the URL using useParams()
-  const { threadId } = useParams();
+  const { threadId, messages } = useLoaderData();
 
-  const [messages, setMessages] = useState(defaultMessages);
+
 
   const addMessage = (content) => {
     const newMessage = {
@@ -44,7 +59,7 @@ export default function ChatThread() {
       content: content,
     };
 
-    setMessages([...messages, newMessage]);
+   console.log("message submtted:", content)
   };
 
   return (
