@@ -231,6 +231,61 @@ app.post("/api/threads/:id/messages", async (req, res) => {
   }
 });
 
+
+app.post("/api/test-groq", async (req, res) => {
+  if (!process.env.GROQ_API_KEY) {
+    return res.status(500).json({
+      error: "GROQ_API_KEY is missing from the environment variables"
+    });
+  }
+
+  const apiKey = process.env.GROQ_API_KEY;
+
+  try {
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-oss-20b",
+          messages: [
+            {
+              role: "user",
+              content: "Please respond with a short message"
+            }
+          ]
+        })
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+
+      return res.status(502).json({
+        error: "Groq API request failed",
+        details: errorData
+      });
+    }
+
+    const data = await response.json();
+
+    return res.json(data);
+
+  } catch (error) {
+    console.error("Groq request failed:", error);
+
+    return res.status(500).json({
+      error: "An unexpected error occurred while contacting Groq"
+    });
+  }
+});
+
+
+
 // ========== Start the server ========== //
 app.listen(PORT, () => {
   console.log(`✅ Server is running on http://localhost:${PORT}`);
