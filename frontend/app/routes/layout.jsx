@@ -1,21 +1,6 @@
 import { Outlet, useLoaderData, redirect } from "react-router";
 import Sidebar from "../components/Sidebar.jsx";
 
-/**
- * CLIENT LOADER FUNCTION
- *
- * Fetches the list of chat threads from our custom API before the layout renders.
- * Key concepts:
- * 1. PARENT ROUTE LOADER: Runs before any child route loaders
- * 2. SHARED DATA: Data is available to this component and can be accessed by children
- * 3. CUSTOM API: Direct HTTP calls to our Express API server
- * 4. ENVIRONMENT VARIABLES: Secure way to store API endpoint URLs
- *
- * This loader runs:
- * - On initial page load
- * - When navigating to any route under this layout
- * - When React Router revalidates (after mutations)
- */
 export async function clientLoader() {
   // Get our API URL from environment variables
   const apiUrl = import.meta.env.VITE_API_URL;
