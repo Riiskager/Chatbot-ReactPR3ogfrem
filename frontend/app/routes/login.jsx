@@ -1,4 +1,4 @@
-import { Form, Link, redirect, useActionData, useNavigation } from "react-router";
+import { Form, Link, redirect, useActionData, useNavigation, useSearchParams } from "react-router";
 import { supabase } from "../lib/supabase";
 
 export async function clientAction({request}){
@@ -10,21 +10,33 @@ export async function clientAction({request}){
     return {error: "Fill in all form inputs"}
   }
 
-  const {login} = supabase.auth.signInWithPassword({ email, password })
-  if(!login){
+  const {error} = await supabase.auth.signInWithPassword({ email, password });
+
+  if(error){
     return{error: "Invalid email or password"};
-  }else{
-    redirect("/")
   }
+  console.log("Ingen fejl, før redirect")
+  return redirect("/")
+  
 }
 
 export default function Login() {
   const actionData = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  const [searchParams] = useSearchParams();
+  const justRegistered = searchParams.get("registered") === "true";
+
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h1>Welcome Back</h1>
         <p className="auth-subtitle">Log in with your email and password</p>
+        {justRegistered &&(
+            <div className="success-message"> 
+            Account created Successfully! Please Log in </div>
+        )}
 
         <Form method="post" className="auth-form">
           <div className="form-group">
@@ -51,8 +63,8 @@ export default function Login() {
         {actionData?.error && (
         <div className="error-message">{actionData.error}</div>
       )}
-          <button type="submit" className="btn-primary">
-            Log In
+          <button type="submit" disabled={isSubmitting} className="btn-primary">
+            {isSubmitting ? "Logging in..." :"Log in"}
           </button>
         </Form>
 
