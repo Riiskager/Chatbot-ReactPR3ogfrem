@@ -5,7 +5,7 @@ import {
   Link,
   useRouteLoaderData,
 } from "react-router";
-import { supabase } from "./lib/supabase";
+import { supabase } from "../lib/supabase";
 console.log(supabase); // Should log the Supabase client object
 /**
  * Edit Thread Title Route Component
