@@ -4,20 +4,16 @@ import Sidebar from "../components/Sidebar.jsx";
 export async function clientLoader() {
   // Get our API URL from environment variables
   const apiUrl = import.meta.env.VITE_API_URL;
-
   // Construct the API endpoint URL
   // Our custom API handles sorting internally (ORDER BY created_at DESC)
   const url = `${apiUrl}/api/threads`;
-
   // Make the request to our custom API
   // No special headers needed - our API is public for now
   const response = await fetch(url);
-
   // Check if the request was successful
   if (!response.ok) {
     throw new Error(`Failed to fetch threads: ${response.status}`);
   }
-
   // Parse the JSON response
   const threads = await response.json();
 
