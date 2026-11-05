@@ -5,12 +5,10 @@ export default [
     index("routes/home.jsx"),
     route("chat/new", "routes/chat-new.jsx"),
     route("chat/:threadId", "routes/chat-thread.jsx", [
-    route("edit", "routes/chat-thread-edit.jsx"),
+      route("edit", "routes/chat-thread-edit.jsx"),
     ]),
   ]),
-  route("register", "routes/register.jsx"),
+  // Authentication routes (outside main layout)
   route("login", "routes/login.jsx"),
+  route("register", "routes/register.jsx"),
 ];
-
-
-

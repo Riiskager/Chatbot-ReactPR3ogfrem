@@ -5,7 +5,7 @@ import sql from "./db.js";
 
 // ========== Setup Express App ========== //
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 // ========== Middleware ========== //
 // Middleware functions run in order for each request
