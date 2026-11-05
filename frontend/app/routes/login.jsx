@@ -13,6 +13,8 @@
  * 7. User is redirected to home page
  * 8. If incorrect, an error message is displayed
  *
+ * 
+ * 
  * What Happens Behind the Scenes:
  * - Supabase retrieves the password hash from the database
  * - Compares the entered password with the stored hash using bcrypt
