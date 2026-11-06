@@ -1,0 +1,23 @@
+{
+  "name": "chatbot-reactpr3ogfrem",
+  "version": "1.0.0",
+  "description": "<img width=\"2880\" height=\"1578\" alt=\"chatbot-ui-screenshot\" src=\"https://github.com/user-attachments/assets/40f4435a-0fe2-4813-9f20-9597a2cdfc93\" />",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Riiskager/Chatbot-ReactPR3ogfrem.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Riiskager/Chatbot-ReactPR3ogfrem/issues"
+  },
+  "homepage": "https://github.com/Riiskager/Chatbot-ReactPR3ogfrem#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6"
+  }
+}
