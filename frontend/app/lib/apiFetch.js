@@ -29,6 +29,7 @@
  */
 
 import { supabase } from "./supabase.js";
+import { redirect } from "react-router";
 
 /**
  * apiFetch - Fetch wrapper with automatic authentication
@@ -64,10 +65,13 @@ export async function apiFetch(path, options = {}) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  // Make the request with the standard fetch() function
-  // Spread the original options and override headers
-  return fetch(url, {
-    ...options,
-    headers,
-  });
+  const response = await fetch(`${url}`, { ...options, headers });
+
+  // Tokenet mangler eller virker ikke. Kun login hjælper
+  if (response.status === 401) {
+    throw redirect("/login");
+  }
+
+  // Andre fejl håndterer routen selv
+  return response;
 }
