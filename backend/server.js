@@ -55,7 +55,7 @@ app.get("/api/threads", requireAuth, async (req, res) => {
   try {
     // Execute SQL query using the sql`` tagged template
     const threads = await sql`
-      SELECT id, title, created_at, ${user_id} 
+      SELECT id, title, created_at
       FROM threads 
       ORDER BY created_at DESC
     `;
@@ -104,7 +104,7 @@ app.get("/api/threads/:id", requireAuth , async (req, res) => {
     // Execute SQL query with WHERE clause
     // The ${threadId} is safely parameterized by the postgres library
     const threads = await sql`
-      SELECT id, title, created_at 
+      SELECT id, title, user_id, created_at 
       FROM threads 
       WHERE id = ${threadId} AND user_id = ${user_id}
     `;
@@ -151,7 +151,7 @@ app.get("/api/threads/:id/messages", requireAuth ,async (req, res) => {
     SELECT id 
     FROM threads
     WHERE id = ${threadId} AND user_id = ${user_id}
-    `
+    `;
 
     if(!access){
       throw new Error("401 error: Authorization denied")
@@ -354,6 +354,7 @@ app.post("/api/threads", requireAuth, async (req, res) => {
  * replacing the entire thread resource, we would use PUT instead.
  */
 app.patch("/api/threads/:id", requireAuth, async (req, res) => {
+  const user_id = req.userID;
   try {
     // Extract the thread ID from the URL parameters
     const threadId = req.params.id;
@@ -381,8 +382,8 @@ app.patch("/api/threads/:id", requireAuth, async (req, res) => {
     const result = await sql`
       UPDATE threads
       SET title = ${trimmedTitle}
-      WHERE id = ${threadId}
-      RETURNING id, title, created_at
+      WHERE id = ${threadId} AND user_id = ${user_id}
+      RETURNING id, title, user_id, created_at
     `;
 
     // If no thread was updated, it means the thread doesn't exist
@@ -405,6 +406,7 @@ app.patch("/api/threads/:id", requireAuth, async (req, res) => {
 // ========== DELETE an existing thread ========== //
 // DELETE /api/threads/:id - Delete a thread by ID
 app.delete("/api/threads/:id", requireAuth, async (req, res) => {
+  const user_id = req.userID;
   try {
     // Extract the thread ID from the URL parameters
     const threadId = req.params.id;
@@ -414,7 +416,7 @@ app.delete("/api/threads/:id", requireAuth, async (req, res) => {
     // because of the ON DELETE CASCADE constraint on the messages table
     const result = await sql`
       DELETE FROM threads
-      WHERE id = ${threadId}
+      WHERE id = ${threadId} and user_id = ${user_id}
       RETURNING id
     `;
 

@@ -27,14 +27,15 @@ export async function requireAuth(req, res, next) {
                 error: "Token did not work"
             });
         }
-        const { data: {user}, error } = await supabaseAnonKey.auth.getUser(token);
-        if(error || !user){
-            return res.status(401).json({
-                error: "user did not work"
-            });
-        };
-        req.userID = user.id;
-        next();
+       const { data, error } = await supabase.auth.getUser(token);
+
+  if (error || !data.user) {
+    return res.status(401).json({ error: "Invalid or expired token" });
+  }
+
+  // Routen kan nu se, hvem der spørger
+  req.userID = data.user.id;
+  next();
 
     } catch (error) {
         console.log(error)
