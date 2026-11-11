@@ -55,8 +55,9 @@ app.get("/api/threads", requireAuth, async (req, res) => {
   try {
     // Execute SQL query using the sql`` tagged template
     const threads = await sql`
-      SELECT id, title, created_at
+      SELECT id, title, user_id, created_at
       FROM threads 
+      WHERE user_id = ${user_id}
       ORDER BY created_at DESC
     `;
 
