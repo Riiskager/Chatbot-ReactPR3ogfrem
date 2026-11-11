@@ -69,7 +69,8 @@ export async function apiFetch(path, options = {}) {
 
   // Tokenet mangler eller virker ikke. Kun login hjælper
   if (response.status === 401) {
-    throw redirect("/login");
+    const currentPath = window.location.pathname + window.location.search;
+  throw redirect(`/login?redirect=${encodeURIComponent(currentPath)}`);
   }
 
   // Andre fejl håndterer routen selv
